@@ -63,7 +63,7 @@ class NewsBotConfig:
     codex_model: str = ""        # 비우면 codex 기본 모델(gpt-5.5)
     codex_effort: str = "low"    # codex reasoning effort (low/medium/high)
     codex_timeout: int = 180     # codex 호출 타임아웃(초)
-    codex_usage_log: str = "news_bot/state/codex_usage.jsonl"  # 호출량 측정 로그
+    codex_usage_log: str = "server/kokalim/state/codex_usage.jsonl"  # 호출량 측정 로그
 
     # --- 중복 제거 ---
     # 문자 바이그램 겹침 계수 임계값(0~1). 높을수록 엄격.
@@ -82,17 +82,17 @@ class NewsBotConfig:
     interval_seconds: int = 300
 
     # --- 상태 파일 ---
-    state_path: str = "news_bot/state/state.json"
-    fixture_path: str = "news_bot/fixtures/sample_articles.json"
+    state_path: str = "server/kokalim/state/state.json"
+    fixture_path: str = "server/kokalim/fixtures/sample_articles.json"
 
     # --- 연관 컨텍스트 추적(--context 모드) ---
-    situation_path: str = "news_bot/state/situations.json"
-    context_fixture_path: str = "news_bot/fixtures/context_sample.json"
+    situation_path: str = "server/kokalim/state/situations.json"
+    context_fixture_path: str = "server/kokalim/fixtures/context_sample.json"
     context_alert_min: int = 3       # 연관 소식 알림 최소 중요도(0~10)
     context_expand: bool = False     # True면 LLM이 컨텍스트 그래프를 확장(하이브리드)
     naver_max_queries: int = 40      # 컨텍스트 모드 네이버 질의 상한
     context_max_workers: int = 8     # 항목별 병렬 조사 동시성
-    expansion_path: str = "news_bot/state/graph_expansion.json"  # LLM 확장 캐시
+    expansion_path: str = "server/kokalim/state/graph_expansion.json"  # LLM 확장 캐시
 
     @property
     def keyword_weights(self) -> dict[str, float]:

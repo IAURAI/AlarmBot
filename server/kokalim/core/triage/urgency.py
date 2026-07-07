@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import logging
 
-from .config import NewsBotConfig
-from .llm import get_backend
-from .models import Cluster
+from kokalim.config import NewsBotConfig
+from kokalim.core.triage.llm import get_backend
+from kokalim.core.models import Cluster
 
 LOGGER = logging.getLogger(__name__)
 

@@ -19,7 +19,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .config import NewsBotConfig
+from kokalim.config import NewsBotConfig
 
 LOGGER = logging.getLogger(__name__)
 

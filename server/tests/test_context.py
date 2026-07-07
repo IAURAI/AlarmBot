@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import dataclasses
 
-from news_bot.config import NewsBotConfig
-from news_bot.context import build_watch_items, item_matches
-from news_bot.models import Article
-from news_bot.pipeline_context import run_context_cycle
-from news_bot.situation import load_situations
+from kokalim.config import NewsBotConfig
+from kokalim.core.context.graph import build_watch_items, item_matches
+from kokalim.core.models import Article
+from kokalim.core.pipeline_context import run_context_cycle
+from kokalim.core.context.situation import load_situations
 
 
 def _cfg(tmp_path) -> NewsBotConfig:

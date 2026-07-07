@@ -10,9 +10,9 @@ import logging
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 
-from .config import NewsBotConfig
-from .context import WatchItem
-from .models import Cluster
+from kokalim.config import NewsBotConfig
+from kokalim.core.context.graph import WatchItem
+from kokalim.core.models import Cluster
 
 LOGGER = logging.getLogger(__name__)
 

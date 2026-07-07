@@ -11,7 +11,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from .models import Article
+from kokalim.core.models import Article
 
 
 @dataclass(frozen=True)

@@ -7,7 +7,7 @@ import json
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from .dedup import normalize_title
+from kokalim.core.dedup import normalize_title
 
 
 def _key(title: str) -> str:

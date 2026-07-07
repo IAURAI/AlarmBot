@@ -6,13 +6,13 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-from .config import NewsBotConfig
-from .dedup import cluster_articles
-from .notify import format_digest, get_notifier
-from .sources import drop_stale, gather
-from .state import SeenStore, load_state, save_state
-from .summarize import make_summarizer, summarize_clusters
-from .urgency import classify, make_judge
+from kokalim.config import NewsBotConfig
+from kokalim.core.dedup import cluster_articles
+from kokalim.notify import format_digest, get_notifier
+from kokalim.core.ingest.sources import drop_stale, gather
+from kokalim.state import SeenStore, load_state, save_state
+from kokalim.core.summarize import make_summarizer, summarize_clusters
+from kokalim.core.triage.urgency import classify, make_judge
 
 LOGGER = logging.getLogger(__name__)
 

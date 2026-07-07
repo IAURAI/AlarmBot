@@ -1,4 +1,4 @@
-# News Bot — 주식 뉴스 긴급 알림봇
+# kokalim 서버 코어 — 주식 뉴스 긴급 알림
 
 언론의 개인투자자 파급력을 활용해, 뉴스/기사를 5분 간격으로 크롤링하고 **급한 것만** 추려
 텔레그램(또는 카카오 '나에게 보내기')으로 알림을 보낸다.
@@ -17,13 +17,13 @@
 
 ```bash
 # 오프라인(네트워크 0) — 픽스처로 파이프라인 확인
-.venv/bin/python -m news_bot.run --offline --dry-run
+.venv/bin/python -m kokalim.cli --offline --dry-run
 
 # 실데이터 1회 (콘솔 출력)
-.venv/bin/python -m news_bot.run --dry-run
+.venv/bin/python -m kokalim.cli --dry-run
 
 # 5분 루프 + 텔레그램 발송
-.venv/bin/python -m news_bot.run --loop --platform telegram
+.venv/bin/python -m kokalim.cli --loop --platform telegram
 ```
 
 플래그: `--loop`(반복), `--offline`(픽스처), `--dry-run`(콘솔만), `--platform {console,telegram,kakao}`,
@@ -31,7 +31,7 @@
 
 ## 자격증명 (.env)
 
-프로젝트 루트 `.env`에 넣으면 `news_bot/__init__.py`가 자동 로드한다.
+프로젝트 루트 `.env`에 넣으면 `kokalim/__init__.py`가 자동 로드한다.
 
 | 키 | 용도 |
 |---|---|
@@ -64,7 +64,7 @@ LLM 백엔드 기본값은 **codex(구독제)** — `codex exec --output-schema`
 그 기업 뉴스뿐 아니라 **연관된 중요 소식**(공급망·고객·경쟁사·테마)까지 잡고, 시간에 따른
 변화를 추적한다.
 
-- **컨텍스트 그래프**(`context.py`): 관심종목마다 `self + related(엔티티) + theme` 감시 유닛을
+- **컨텍스트 그래프**(`core/context/graph.py`): 관심종목마다 `self + related(엔티티) + theme` 감시 유닛을
   시드. `--expand-graph`를 돌리면 LLM이 찾은 연관 항목이 캐시에 병합됨(하이브리드).
 - **병렬 조사**: 새 뉴스가 들어온 유닛만 골라 `ThreadPoolExecutor`로 동시 평가. 키가 없으면
   결정적 휴리스틱(매체 corroboration + 키워드), 있으면 유닛별 Claude 판정.
@@ -73,17 +73,17 @@ LLM 백엔드 기본값은 **codex(구독제)** — `codex exec --output-schema`
 - **두 트리거**: 실질적 변화(급변)는 즉시 알림, 완만한 변화는 `--report`로 주기 요약.
 
 ```bash
-.venv/bin/python -m news_bot.run --context --offline --dry-run   # 오프라인 확인
-.venv/bin/python -m news_bot.run --context --loop --platform telegram
-.venv/bin/python -m news_bot.run --expand-graph                  # LLM 그래프 확장(1회)
-.venv/bin/python -m news_bot.run --report --platform telegram    # 추적 상황 요약 발송
+.venv/bin/python -m kokalim.cli --context --offline --dry-run   # 오프라인 확인
+.venv/bin/python -m kokalim.cli --context --loop --platform telegram
+.venv/bin/python -m kokalim.cli --expand-graph                  # LLM 그래프 확장(1회)
+.venv/bin/python -m kokalim.cli --report --platform telegram    # 추적 상황 요약 발송
 ```
 
 알림은 종목별로 묶여 `직접 소식 + 연관 동향(무엇이 바뀌었는지·중요도)`로 온다.
 
 ## method_b 연동
 
-수집·중복제거 단계에서 종목별 일일 기사 수를 집계하면 그대로 `method_b`의
+수집·중복제거 단계에서 종목별 일일 기사 수를 집계하면 그대로 `research/method_b`의
 `--news-csv`(date,ticker,count) 입력이 된다. 알림봇이 그 파이프라인의 데이터 수집기를 겸한다.
 
 ## 한계 / 주의
@@ -95,5 +95,5 @@ LLM 백엔드 기본값은 **codex(구독제)** — `codex exec --output-schema`
 ## 테스트
 
 ```bash
-.venv/bin/python -m pytest news_bot/tests/ -q   # 네트워크·API 키 불필요
+.venv/bin/python -m pytest server/tests -q   # 네트워크·API 키 불필요
 ```

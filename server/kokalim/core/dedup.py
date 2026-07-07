@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 
-from .models import Article, Cluster
+from kokalim.core.models import Article, Cluster
 
 _PUNCT = re.compile(r"[^\w가-힣]+")
 _WS = re.compile(r"\s+")

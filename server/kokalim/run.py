@@ -7,9 +7,9 @@ import dataclasses
 import logging
 import time
 
-from .config import NewsBotConfig
-from .pipeline import run_cycle
-from .pipeline_context import build_situation_report, run_context_cycle
+from kokalim.config import NewsBotConfig
+from kokalim.core.pipeline import run_cycle
+from kokalim.core.pipeline_context import build_situation_report, run_context_cycle
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -55,9 +55,9 @@ def _run_loop(cycle, config: NewsBotConfig, args: argparse.Namespace) -> None:
 
 def _expand_graph(config: NewsBotConfig) -> int:
     """LLM으로 컨텍스트 그래프를 확장해 캐시에 저장한다(하이브리드)."""
-    from .context import CONTEXT_GRAPH, save_expansion
-    from .investigate import discover_expansion
-    from .llm import get_backend
+    from kokalim.core.context.graph import CONTEXT_GRAPH, save_expansion
+    from kokalim.core.context.investigate import discover_expansion
+    from kokalim.core.triage.llm import get_backend
 
     backend = get_backend(config)
     if backend is None:
@@ -71,8 +71,8 @@ def _expand_graph(config: NewsBotConfig) -> int:
 
 def _send_report(config: NewsBotConfig, dry_run: bool) -> int:
     """추적 상황 주기 요약을 발송한다."""
-    from .notify import get_notifier
-    from .situation import load_situations
+    from kokalim.notify import get_notifier
+    from kokalim.core.context.situation import load_situations
 
     text = build_situation_report(load_situations(config.situation_path))
     get_notifier(config, dry_run).send(text)

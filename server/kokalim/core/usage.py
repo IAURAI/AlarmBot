@@ -1,4 +1,4 @@
-"""codex 호출량 요약 — `python -m news_bot.usage`.
+"""codex 호출량 요약 — `python -m kokalim.core.usage`.
 
 codex_usage.jsonl(호출마다 1줄)을 읽어 호출 수·호출률·소요시간·토큰(있으면)을 집계한다.
 구독제 레이트리밋 대비 지속 사용량을 가늠하는 용도.
@@ -10,7 +10,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-from .config import NewsBotConfig
+from kokalim.config import NewsBotConfig
 
 
 def summarize(path: str | Path) -> str:

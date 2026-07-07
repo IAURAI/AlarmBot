@@ -8,16 +8,16 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-from .config import NewsBotConfig
-from .context import WatchItem, build_watch_items, item_matches, load_expansion
-from .dedup import cluster_articles, normalize_title
-from .investigate import Assessment, assess_items
-from .llm import get_backend
-from .notify import get_notifier
-from .situation import load_situations, save_situations, update_situation
-from .sources import drop_stale, gather_pool
-from .state import SeenStore, load_state, save_state
-from .urgency import score_clusters
+from kokalim.config import NewsBotConfig
+from kokalim.core.context.graph import WatchItem, build_watch_items, item_matches, load_expansion
+from kokalim.core.dedup import cluster_articles, normalize_title
+from kokalim.core.context.investigate import Assessment, assess_items
+from kokalim.core.triage.llm import get_backend
+from kokalim.notify import get_notifier
+from kokalim.core.context.situation import load_situations, save_situations, update_situation
+from kokalim.core.ingest.sources import drop_stale, gather_pool
+from kokalim.state import SeenStore, load_state, save_state
+from kokalim.core.triage.urgency import score_clusters
 
 LOGGER = logging.getLogger(__name__)
 _STANCE = {"positive": "▲", "negative": "▼", "neutral": "·"}

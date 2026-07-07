@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import dataclasses
 
-from news_bot.config import NewsBotConfig
-from news_bot.pipeline import run_cycle
+from kokalim.config import NewsBotConfig
+from kokalim.core.pipeline import run_cycle
 
 
 def _cfg(tmp_path) -> NewsBotConfig:

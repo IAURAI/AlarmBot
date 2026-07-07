@@ -1,0 +1,9 @@
+# 리포 루트 — 배포 단위별 설정은 각 하위 디렉토리에 있다:
+#   server/pyproject.toml   콕알림 백엔드(kokalim) 패키지 + 편집 설치
+#   research/method_b/       패널 회귀 연구 (자립적, 설치 불필요)
+# 이 파일은 리포 전체 테스트 실행(pytest)만 설정한다.
+
+[tool.pytest.ini_options]
+# server(kokalim)와 research(method_b)를 설치 없이 임포트 가능하게 한다.
+pythonpath = ["server", "research"]
+testpaths = ["server/tests", "research/method_b/tests"]

@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from news_bot.config import NewsBotConfig
-from news_bot.dedup import cluster_articles
-from news_bot.sources import load_fixture
-from news_bot.urgency import classify, keyword_score, score_clusters
+from kokalim.config import NewsBotConfig
+from kokalim.core.dedup import cluster_articles
+from kokalim.core.ingest.sources import load_fixture
+from kokalim.core.triage.urgency import classify, keyword_score, score_clusters
 
 
 def test_high_keyword_scores_above_urgent_threshold() -> None:

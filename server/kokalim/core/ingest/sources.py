@@ -13,8 +13,8 @@ from pathlib import Path
 
 import requests
 
-from .config import NewsBotConfig
-from .models import Article
+from kokalim.config import NewsBotConfig
+from kokalim.core.models import Article
 
 LOGGER = logging.getLogger(__name__)
 _TAG = re.compile(r"<[^>]+>")

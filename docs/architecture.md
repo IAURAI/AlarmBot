@@ -1,7 +1,7 @@
 # 콕알림 아키텍처 설계
 
 > 상태: 설계 확정 대기 / 작성일: 2026-07-07
-> 관련 문서: [apps-in-toss.md](apps-in-toss.md) (앱인토스 미니앱 상세), [restructuring.md](restructuring.md) (구조 재편성 실행 계획)
+> 관련 문서: [apps-in-toss.md](apps-in-toss.md) (앱인토스 미니앱 상세), [restructuring.md](restructuring.md) (구조 재편성 실행 계획), [mvp-serving-spec.md](mvp-serving-spec.md) (서빙 아키텍처·설계 백로그)
 
 ## 1. 제품 정의
 

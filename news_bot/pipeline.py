@@ -10,6 +10,7 @@ from .config import NewsBotConfig
 from .dedup import cluster_articles
 from .notify import format_digest, get_notifier
 from .sources import drop_stale, gather
+from .supabase_sink import get_sink, rows_from_clusters
 from .state import SeenStore, load_state, save_state
 from .summarize import make_summarizer, summarize_clusters
 from .urgency import classify, make_judge
@@ -55,10 +56,15 @@ def run_cycle(
     summarize_clusters(urgent, None if offline else make_summarizer(config))
 
     sent = False
+    sink = None if (offline or dry_run) else get_sink(config)
     notifier = get_notifier(config, dry_run)
     digest = format_digest(urgent, config, notifier.uses_html) if urgent else ""
     if urgent:
-        notifier.send(digest)
+        if sink is not None:
+            sink.insert_rows(rows_from_clusters(urgent, config))
+            LOGGER.info("Supabase에 긴급 %d건 적재 → Vercel이 발송", len(urgent))
+        else:
+            notifier.send(digest)
         sent = True
 
     for article in fresh:

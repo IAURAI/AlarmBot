@@ -17,6 +17,7 @@ from .notify import get_notifier
 from .situation import load_situations, save_situations, update_situation
 from .sources import drop_stale, gather_pool
 from .state import SeenStore, load_state, save_state
+from .supabase_sink import get_sink, rows_from_context_alerts
 from .urgency import score_clusters
 
 LOGGER = logging.getLogger(__name__)
@@ -64,11 +65,16 @@ def run_context_cycle(
             alerts.append((item, assessment))
     alerts = _dedupe_alerts(alerts)
 
+    sink = None if (offline or dry_run) else get_sink(config)
     notifier = get_notifier(config, dry_run)
     digest = format_context_digest(alerts, notifier.uses_html) if alerts else ""
     sent = False
     if alerts:
-        notifier.send(digest)
+        if sink is not None:
+            sink.insert_rows(rows_from_context_alerts(alerts))
+            LOGGER.info("Supabase에 컨텍스트 %d건 적재 → Vercel이 발송", len(alerts))
+        else:
+            notifier.send(digest)
         sent = True
 
     _mark_seen(fresh_by_item, seen, now)

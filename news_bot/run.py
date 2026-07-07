@@ -18,6 +18,14 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     config = _build_config(args)
 
+    if config.sink == "supabase" and not args.offline and not args.dry_run:
+        try:
+            from .supabase_sink import sync_supported
+            sync_supported(config)
+            logging.info("supported_tickers 동기화 완료")
+        except Exception:
+            logging.exception("supported_tickers 동기화 실패 — 계속 진행")
+
     if args.expand_graph:
         return _expand_graph(config)
     if args.report:
@@ -84,6 +92,8 @@ def _build_config(args: argparse.Namespace) -> NewsBotConfig:
     overrides: dict[str, object] = {}
     if args.platform:
         overrides["platform"] = args.platform
+    if args.sink:
+        overrides["sink"] = args.sink
     if args.scope:
         overrides["scope"] = args.scope
     if args.mode:
@@ -103,6 +113,8 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("--offline", action="store_true", help="픽스처로 오프라인 실행(네트워크 0)")
     parser.add_argument("--dry-run", action="store_true", help="실제 발송 없이 콘솔 출력")
     parser.add_argument("--platform", choices=["console", "telegram", "kakao"])
+    parser.add_argument("--sink", choices=["notifier", "supabase"],
+                        help="발송 경로: notifier(콘솔/텔레그램 직접) 또는 supabase(→Vercel 푸시)")
     parser.add_argument("--scope", choices=["watchlist", "market", "all"])
     parser.add_argument("--mode", choices=["hybrid", "llm", "keyword"], help="긴급도 판정 방식")
     parser.add_argument("--interval", type=int, help="루프 간격(초)")

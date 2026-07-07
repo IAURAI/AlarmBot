@@ -77,6 +77,11 @@ class NewsBotConfig:
     platform: str = "console"
     max_items_per_digest: int = 12
     telegram_parse_mode: str = "HTML"
+    # 발송 경로: "notifier"(콘솔/텔레그램/카카오 직접 발송) 또는
+    # "supabase"(구조화 행을 Supabase에 적재 → Database Webhook이 Vercel /api/notify 호출 → 텔레그램).
+    # supabase면 로컬은 직접 발송하지 않는다(중복 방지). 자격증명 없으면 자동으로 notifier 폴백.
+    sink: str = "notifier"
+    supabase_table: str = "alerts"
 
     # --- 스케줄 ---
     interval_seconds: int = 300

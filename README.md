@@ -21,6 +21,19 @@ cp .env.example .env          # 값 채우기 (아래 자격증명 참고)
 .venv/bin/python -m news_bot.run --loop --platform telegram   # 실시간 운영
 ```
 
+### 클라우드 배포(선택): 로컬 판정 → Supabase → Vercel 텔레그램 봇
+
+내 PC에서 크롤·LLM 판정(Codex 무료 유지)은 그대로 두고, 결과를 **Supabase**에 적재하면
+**Vercel**이 **개인별 텔레그램 봇**으로 동작합니다 — 누구나 봇에서 `/watch <종목>`으로 자기
+관심종목을 담고, 알림은 그 종목을 등록한 구독자에게만 팬아웃됩니다(`/latest`·`/status` 조회 포함).
+판정은 종목당 1회라 **구독자가 늘어도 LLM 비용은 그대로**. Vercel 함수는 무의존성이라 **무료(Hobby)** 로 충분합니다.
+
+```bash
+.venv/bin/python -m news_bot.run --loop --sink supabase   # 로컬은 적재만, 발송은 Vercel
+```
+
+→ 설정 가이드: [`vercel/README.md`](vercel/README.md) · 스키마: [`supabase/schema.sql`](supabase/schema.sql)
+
 ## 2. `method_b` — "개인 거래비중 × 관심 이벤트" 패널 회귀 (연구)
 
 언론/관심 이벤트의 주가 파급력이 개인 투자자 거래비중과 함께 커지는지(단기 증폭·중기 반전) 검정하는
@@ -37,6 +50,7 @@ cp .env.example .env          # 값 채우기 (아래 자격증명 참고)
 | `NEWSBOT_TELEGRAM_BOT_TOKEN` / `_CHAT_ID` | news_bot 텔레그램 발송 | BotFather |
 | `NAVER_CLIENT_ID` / `_SECRET` | news_bot 종목 뉴스 검색 | developers.naver.com (앱에 **"검색"** API 추가 필수) |
 | `KRX_ID` / `KRX_PW` | method_b 데이터 | data.krx.co.kr |
+| `SUPABASE_URL` / `SUPABASE_SERVICE_KEY` | (선택) news_bot Supabase 적재→Vercel 발송 | supabase.com → Settings → API |
 
 자격증명이 없으면 해당 경로는 조용히 비활성화되고 콘솔/휴리스틱으로 폴백합니다.
 

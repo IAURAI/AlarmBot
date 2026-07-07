@@ -17,6 +17,7 @@ server/kokalim/state/
 # 도구 상태
 .omc/
 .gjc/
+.DS_Store
 comms/
 .handoff/
 !.env.example
